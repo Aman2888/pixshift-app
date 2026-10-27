@@ -7,8 +7,9 @@ plugins {
     id("dev.flutter.flutter-gradle-plugin")
 }
 
-val keystorePropertiesFile = rootProject.file("key.properties")
+// Release signing — reads android/key.properties + upload-keystore.jks
 val keystoreProperties = Properties()
+val keystorePropertiesFile = rootProject.file("key.properties")
 if (keystorePropertiesFile.exists()) {
     keystoreProperties.load(FileInputStream(keystorePropertiesFile))
 }
@@ -32,22 +33,27 @@ android {
     }
 
     signingConfigs {
-        if (keystorePropertiesFile.exists()) {
-            create("release") {
+        create("release") {
+            if (keystorePropertiesFile.exists()) {
                 keyAlias = keystoreProperties["keyAlias"] as String
                 keyPassword = keystoreProperties["keyPassword"] as String
-                storeFile = file(keystoreProperties["storeFile"] as String)
                 storePassword = keystoreProperties["storePassword"] as String
+                // Path is relative to the android/ folder (rootProject).
+                storeFile = rootProject.file(keystoreProperties["storeFile"] as String)
             }
         }
     }
 
     buildTypes {
         release {
-            signingConfig = if (keystorePropertiesFile.exists()) {
+            signingConfig = if (
+                keystorePropertiesFile.exists() &&
+                (keystoreProperties["storeFile"] as String?) != null &&
+                rootProject.file(keystoreProperties["storeFile"] as String).exists()
+            ) {
                 signingConfigs.getByName("release")
             } else {
-                // Local/dev release only — create android/key.properties for Play Store builds.
+                println("WARNING: key.properties / keystore missing — signing release with debug keys.")
                 signingConfigs.getByName("debug")
             }
             isMinifyEnabled = true
