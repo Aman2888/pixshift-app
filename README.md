@@ -1,17 +1,44 @@
-# pixshift
+# PixShift
 
-A new Flutter project.
+Free, private image tools for Android — compress, resize, convert, crop, edit, PDFs, and more. Processing stays on-device.
 
-## Getting Started
+**Application ID:** `com.pixshift.app`  
+**Min SDK:** 24
 
-This project is a starting point for a Flutter application.
+## Run (debug)
 
-A few resources to get you started if this is your first Flutter project:
+```bash
+flutter pub get
+flutter run
+```
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+## Release / Play Store
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+1. Create an upload keystore (once):
+
+```bash
+keytool -genkey -v -keystore android/upload-keystore.jks -keyalg RSA -keysize 2048 -validity 10000 -alias pixshift
+```
+
+2. Copy `android/key.properties.example` → `android/key.properties` and fill in passwords / paths.
+
+3. Build:
+
+```bash
+flutter build appbundle --release
+# or
+flutter build apk --release
+```
+
+Outputs:
+
+- AAB: `build/app/outputs/bundle/release/app-release.aab`
+- APK: `build/app/outputs/flutter-apk/app-release.apk`
+
+`key.properties` and `*.jks` are gitignored — never commit them.
+
+## Notes
+
+- Release builds use R8 minify + resource shrinking.
+- Without `key.properties`, release falls back to the debug keystore (local testing only).
+- Internet is used only for Google Fonts; photos are never uploaded.

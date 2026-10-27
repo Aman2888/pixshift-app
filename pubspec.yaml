@@ -1,5 +1,5 @@
 name: pixshift
-description: PixShift - free image tools (89 tools) as a native Android app.
+description: PixShift — free private image tools (compress, convert, edit) that run on-device.
 publish_to: "none"
 version: 1.0.0+1
 
@@ -20,6 +20,7 @@ dependencies:
   flutter_svg: ^2.0.10+1
   vector_graphics: ^1.1.11+1
   flutter_avif: ^3.0.0
+  package_info_plus: ^8.1.2
 
 dev_dependencies:
   flutter_test:

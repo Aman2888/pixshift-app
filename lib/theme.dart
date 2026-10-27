@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 /// Same palette as the website (app/globals.css): pith, pine, zest, pulp.
@@ -51,6 +52,13 @@ ThemeData buildTheme() {
       surfaceTintColor: Colors.transparent,
       centerTitle: false,
       titleTextStyle: display(20),
+      systemOverlayStyle: const SystemUiOverlayStyle(
+        statusBarColor: C.pith,
+        statusBarIconBrightness: Brightness.dark,
+        statusBarBrightness: Brightness.light,
+        systemNavigationBarColor: Colors.white,
+        systemNavigationBarIconBrightness: Brightness.dark,
+      ),
     ),
     sliderTheme: const SliderThemeData(
       activeTrackColor: C.brand600,

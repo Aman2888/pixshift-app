@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import '../theme.dart';
 import '../ui/logo.dart';
 
@@ -47,10 +48,16 @@ class AboutScreen extends StatelessWidget {
               const SizedBox(height: 6),
               Text('Free image tools. Private by design.', style: body(14, color: Colors.white70), textAlign: TextAlign.center),
               const SizedBox(height: 12),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
-                decoration: BoxDecoration(color: C.zest, borderRadius: BorderRadius.circular(999)),
-                child: Text('Version 1.0.0', style: body(12, w: FontWeight.w800)),
+              FutureBuilder<PackageInfo>(
+                future: PackageInfo.fromPlatform(),
+                builder: (context, snap) {
+                  final v = snap.data?.version ?? '…';
+                  return Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+                    decoration: BoxDecoration(color: C.zest, borderRadius: BorderRadius.circular(999)),
+                    child: Text('Version $v', style: body(12, w: FontWeight.w800)),
+                  );
+                },
               ),
             ]),
           ),

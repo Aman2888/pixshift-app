@@ -1,4 +1,4 @@
-package com.example.pixshift
+package com.pixshift.app
 
 import io.flutter.embedding.android.FlutterActivity
 
